@@ -1,17 +1,17 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port=process.env.PORT;
+const userroute=require("./routes/userroute")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(port, (err) => {
-    if (err) {
-        return console.log('Something bad happened', err);
-    }
-    console.log(`Server is listening on ${port}`);
-});
 
+app.use(['/','/home'],userroute)
+app.use(['/register','/users/signup'],userroute)
+app.use(['/login','/users/login'],userroute)
+app.use('/users',userroute)
 
 
 module.exports = app;
