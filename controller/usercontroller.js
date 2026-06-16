@@ -100,7 +100,13 @@ try
 
 async function getuserpreferences(req,res) {
 
-    const user= await User.findOne()
+
+
+    // const user= await User.findOne()
+
+    const user= await User.findOne({
+        email: req.user.email
+    })
     
     return res.status(200).json({
         preferences:user.preferences
@@ -118,7 +124,9 @@ async function userpreferencesupdate(req, res) {
     const payload=data.preferences
 
 
-    const user= await User.findOne()
+    const user= await User.findOne({
+        email: req.user.email
+    })
     user.preferences=payload
     await user.save();
     res.status(200).json({
@@ -131,7 +139,9 @@ async function userpreferencesupdate(req, res) {
 async function getNews(req,res){
     try
     { 
-        const user= await User.findOne()
+        const user= await User.findOne({
+            email: req.user.email
+        })
         const query= user.preferences.join(" OR ")
 
         const response = await axios.get(
